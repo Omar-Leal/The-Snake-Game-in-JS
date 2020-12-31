@@ -1,0 +1,16 @@
+{
+  "name": "snake-in-javascript",
+  "version": "1.0.0",
+  "description": "The Snake Game made in JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Javascript",
+    "game",
+    "Snake"
+  ],
+  "author": "Omar Leal <omarenriquelealr@>",
+  "license": "MIT"
+}

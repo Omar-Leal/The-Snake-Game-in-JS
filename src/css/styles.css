@@ -1,0 +1,12 @@
+body {
+  background-color: #444;
+  text-align: center;
+  margin: 64px 0 0 0;
+}
+
+canvas {
+  border: 1px solid white;
+  background: #8E2DE2;  
+  background: -webkit-linear-gradient(to right, #4A00E0, #8E2DE2);  
+  background: linear-gradient(to right, #4A00E0, #8E2DE2);
+}
