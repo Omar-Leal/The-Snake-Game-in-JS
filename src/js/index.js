@@ -30,10 +30,10 @@ let gameStates = {
 		y: 0
 	}],
 
-	get_direction: [{
-		x: 0, 
+	get_direction: {
+		x: 1, 
 		y: 0
-	}],
+	},
 
 	fruit: {
 		x:0,
@@ -53,7 +53,81 @@ function randomPositionXY(){
 }
 
 function main() {
+	const head = gameStates.snake_points[0];
+	const dx = gameStates.get_direction.x;
+	const dy = gameStates.get_direction.y;
+	const highIndex = gameStates.snake_points.length - 1;
 	let timeIn = TIME_MOTION;
+	let tail = {};
+	  const objSnake = gameStates.snake_points;
+
+	Object.assign(tail, objSnake[gameStates.snake_points.length - 1])
+
+	let score = (
+		head.x === gameStates.fruit.x
+		&& head.y === gameStates.fruit.y
+	);
+
+	if(gameStates.runState === STATE_RUNNING){
+		for(let j = highIndex; j > -1; j--){
+			const sq = gameStates.snake_points[j];
+			if(j === 0){
+				sq.x += dx;
+				sq.y += dy;
+			}else {
+				sq.x = gameStates.snake_points[j - 1].x;
+				sq.y = gameStates.snake_points[j - 1].y;
+			}
+		}
+	}else if(gameStates.runState === STATE_LOSING){
+		timeIn = 10;
+
+		if(gameStates.snake_points.length > 0){
+			gameStates.snake_points.splice(0,1);
+		}
+
+		if(gameStates.snake_points.length === 0){
+			gameStates.runState = STATE_RUNNING;
+			gameStates.snake_points.push(randomPositionXY());
+			gameStates.fruit = randomPositionXY();
+		}
+
+	}
+
+	if(collision()){
+		gameStates.runState = STATE_LOSING;
+		gameStates.growing_rest = 0;
+
+	}
+
+	if(score){
+	    gameStates.growing_rest += GROWING_SNAKE;
+		gameStates.fruit = randomPositionXY();
+	}
+
+	if(gameStates.growing_rest > 0){
+		gameStates.snake_points.push(tail);
+	    gameStates.growing_rest -= 1;
+	}
+
+	function collision(){
+		const head = gameStates.snake_points[0];
+			if(Headers.x < 0 || head.y >=SPACING_WIDTH || head.y >= SPACING_HEIGHT || head.y < 0){
+				return true;
+			}
+
+			for(let idx = 1; idx < gameStates.snake_points.length; idx++){
+				const sq = gameStates.snake_points[idx];
+
+				if(sq.x === head.x && sq.y === head.y){
+					return true;
+				}
+
+			}
+
+		return false;	
+	}
+
 	requestAnimationFrame(mainDrawn);
 	setTimeout(main, timeIn);
 
@@ -78,7 +152,6 @@ function mainDrawn(){
 		for(var i = 0; i < len; i++){
 		  const {x,y} = gameStates.snake_points[i];
 			printPixel('#22dd22', x, y);
-
 		}
 
 		const {x,y} = gameStates.fruit;
