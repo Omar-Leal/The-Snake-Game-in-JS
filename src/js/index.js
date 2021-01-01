@@ -151,11 +151,11 @@ function mainDrawn(){
 	const len = gameStates.snake_points.length;
 		for(var i = 0; i < len; i++){
 		  const {x,y} = gameStates.snake_points[i];
-			printPixel('#22dd22', x, y);
+			printPixel('#98acf8', x, y);
 		}
 
 		const {x,y} = gameStates.fruit;
-			printPixel('yellow',x,y);
+			printPixel('#da9ff9',x,y);
 }
 
 window.onload = function() {
